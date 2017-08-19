@@ -1,4 +1,4 @@
-# Google-Chrome-Extension
+# Reddit Notify Me
 This Chrome Extension will notify you of any new posts made to the specified subreddit of your choice. Notifications will be displayed as regular Chrome Notifications, on the bottom right corner of your screen. 
 
 # Instructions:
