@@ -1,8 +1,16 @@
-﻿
-//Wait for the document(popup.html) to fully load before executing any javascript
+﻿//Wait for the document(popup.html) to fully load before executing any javascript
 document.addEventListener('DOMContentLoaded', function ()
 {
-    var button = document.getElementById('button1');
+    var button = document.getElementById('button1'); //submit button
+    var reload = document.getElementById('Button2'); //reload button
+
+    //Reload the chrome extension
+    reload.addEventListener('click', function ()
+    {
+        chrome.runtime.reload();
+        console.log("Extension Reloaded");
+    });
+
     // onClick's logic below:
     button.addEventListener('click', function ()
     {
