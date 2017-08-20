@@ -44,7 +44,10 @@ function parseJSON(jsonData)
                 dataStorage[title] = url;
                 console.log("adding item to dataStorage");
                 console.log(title);
-                notification(thumbnail, url, title);
+
+                var removeQuotes = new String();
+                removeQuotes = thumbnail.toString().replace(/"/g, "");
+                notification(removeQuotes, url, title);
             }
 
             //if anything else is in the table and there was no collision, it is to be removed from the table.
@@ -60,17 +63,35 @@ function parseJSON(jsonData)
 //creates a notification on the desktop
 function notification(thumbnail, url, title)
 {
-  
-    chrome.notifications.create({
-        type: "basic",
-        title: "New Posts Found",
-        message: title,
-        iconUrl: "icon.png",
-        //buttons: [{ title: "Go to product" }],
-        isClickable: true,
-        requireInteraction: true
-    });
-
+    if (thumbnail == "self" || thumbnail == "default" || thumbnail == "nsfw" || thumbnail == "image")
+    {
+        chrome.notifications.create({
+            type: "basic",
+            title: "New Posts Found",
+            message: title,
+            iconUrl: "icon.png",
+            isClickable: true,
+            requireInteraction: true
+        });
+    }
+    else
+    {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', thumbnail, true);
+        xhr.responseType = 'blob';
+        xhr.onload = function (e)
+        {
+            chrome.notifications.create({
+                type: "basic",
+                title: "New Posts Found",
+                message: title,
+                iconUrl: window.URL.createObjectURL(this.response),
+                isClickable: true,
+                requireInteraction: true
+            });
+        };
+        xhr.send(null);
+    }
 }
 
 //User may click on the notification to take them to where the product sale was posted
